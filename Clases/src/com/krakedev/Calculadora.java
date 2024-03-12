@@ -20,4 +20,10 @@ public class Calculadora {
 		double cociente = dividendo / divisor;
 		return cociente;
 	}
+	
+	public double promediar(double valor1, double valor2, double valor3) {
+		double suma = valor1 + valor2 + valor3;
+		double promedio = suma / 3;
+		return promedio;
+	}
 }
