@@ -4,15 +4,16 @@ public class TestAuto {
 
 	public static void main(String[] args) {
 		// Instance 2 cars
-		Auto auto1 = new Auto();
-		Auto auto2 = new Auto();
+		Auto auto1 = new Auto("Chevrolet", 17000.50, 2021);
+		Auto auto2 = new Auto("Toyota", 21250.75, 2020);
 		//Modify the attributes
-		auto1.setMarca("Chevrolet");
+		//The constructors have the attributes
+		/*auto1.setMarca("Chevrolet");
 		auto1.setAnio(2021);
 		auto1.setPrecio(17000.50);
 		auto2.setMarca("Toyota");
 		auto2.setAnio(2020);
-		auto2.setPrecio(21250.75);
+		auto2.setPrecio(21250.75);*/
 		//Show the attributes
 		System.out.println("Auto 1 - marca: " + auto1.getMarca());
 		System.out.println("Auto1 - anio: " + auto1.getAnio());

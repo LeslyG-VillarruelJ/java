@@ -8,13 +8,13 @@ public class TestProducto {
 		Producto productoB;
 		Producto productoC;
 		// Instance the products
-		productoA = new Producto();
-		productoB = new Producto();
-		productoC = new Producto();
+		productoA = new Producto("Paracetamol", "Analgésico y Antipirético", 3.50, 5);
+		productoB = new Producto("Ibuprofeno", "Ibuprofeno", 4.80, 10);
+		productoC = new Producto("Omeprazol", "medicamento utilizado para tratar úlceras gástricas", 8.10, 4);
 		// Modify the attributes
 		// productoA
-		productoA.setNombre("Paracetamol");
-		productoA.setDescripcion("Analgésico y Antipirético");;
+		/*productoA.setNombre("Paracetamol");
+		productoA.setDescripcion("Analgésico y Antipirético");
 		productoA.setPrecio(3.50);;
 		productoA.setStockActual(5);;
 		// productoB
@@ -26,7 +26,7 @@ public class TestProducto {
 		productoC.setNombre("Omeprazol");;
 		productoC.setDescripcion("medicamento utilizado para tratar úlceras gástricas");;
 		productoC.setPrecio(8.10);
-		productoC.setStockActual(4);;
+		productoC.setStockActual(4);;*/
 		// Show the products
 		System.out.println("ProductoA - nombre: " + productoA.getNombre());
 		System.out.println("ProductoA - descripción: " + productoA.getDescripcion());

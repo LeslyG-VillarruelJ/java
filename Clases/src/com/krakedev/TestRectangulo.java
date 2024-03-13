@@ -4,16 +4,16 @@ public class TestRectangulo {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Rectangulo r1 = new Rectangulo();
-		Rectangulo r2 = new Rectangulo();
+		Rectangulo r1 = new Rectangulo(10, 5);
+		Rectangulo r2 = new Rectangulo(8, 3);
 		int areaR1;
 		int areaR2;
 		double perimetroR1;
 		double perimetroR2;
-		r1.setBase(10);
+		/*r1.setBase(10);
 		r1.setAltura(5);
 		r2.setBase(8);
-		r2.setAltura(3);
+		r2.setAltura(3);*/
 		areaR1 = r1.calcularArea();
 		areaR2 = r2.calcularArea();
 		// Calculate perimeter
