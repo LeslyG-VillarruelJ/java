@@ -8,24 +8,24 @@ public class TestPersona {
 		person1 = new Persona(); // Instance the variable (object)
 		Persona person2 = new Persona();
 		//Accede to the attributes
-		System.out.println("nombre: " + person1.nombre);
-		System.out.println("edad: " + person1.edad);
-		System.out.println("estatura: " + person1.estatura);
+		System.out.println("nombre: " + person1.getNombre());
+		System.out.println("edad: " + person1.getEdad());
+		System.out.println("estatura: " + person1.getEstatura());
 		// Modify the attributes
-		person1.nombre = "Mario";
-		person1.edad = 45;
-		person1.estatura = 1.56;
+		person1.setNombre("Mario");
+		person1.setEdad(45);
+		person1.setEstatura(1.56);
 		System.out.println("-------------------");
 		//Accede to the attributes
-		System.out.println("nombre: " + person1.nombre);
-		System.out.println("edad: " + person1.edad);
-		System.out.println("estatura: " + person1.estatura);
+		System.out.println("nombre: " + person1.getNombre());
+		System.out.println("edad: " + person1.getEdad());
+		System.out.println("estatura: " + person1.getEstatura());
 		
-		person2.nombre = "Angelina";
+		person2.setNombre("Angelina");
 		
 		System.out.println("************");
-		System.out.println("person1.nombre" + person1.nombre);
-		System.out.println("person2.nombre" + person2.nombre);
+		System.out.println("person1.nombre" + person1.getNombre());
+		System.out.println("person2.nombre" + person2.getNombre());
 	}
 
 }

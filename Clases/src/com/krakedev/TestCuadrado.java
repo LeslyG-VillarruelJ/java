@@ -1,7 +1,5 @@
 package com.krakedev;
 
-import com.krakedev.Cuadrado;
-
 public class TestCuadrado {
 
 	public static void main(String[] args) {
@@ -10,9 +8,9 @@ public class TestCuadrado {
 		Cuadrado c2 = new Cuadrado();
 		Cuadrado c3 = new Cuadrado();
 		// Modify attributes
-		c1.lado = 14.5;
-		c2.lado = 8.9;
-		c3.lado = 18.3;
+		c1.setLado(14.5);
+		c2.setLado(8.9);
+		c3.setLado(18.3);
 		// Get area and perimeter
 		double area1 = c1.calcularArea();
 		double area2 = c2.calcularArea();
