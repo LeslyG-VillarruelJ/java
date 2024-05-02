@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.krakedev.inventario.entidades.Proveedor;
+import com.krakedev.inventario.entidades.TipoDocumento;
 import com.krakedev.inventario.excepciones.KrakeDevException;
 import com.krakedev.inventario.utils.ConexionBDD;
 
@@ -19,17 +20,20 @@ public class ProveedoresBDD {
 		Proveedor prov = null;
 		try {
 			con = ConexionBDD.obtenerConexion();
-			ps = con.prepareStatement("select * from proveedores where upper(nombre) like ?");
-			ps.setString(1, "%" +subcadena.toUpperCase() + "%");
+			ps = con.prepareStatement(
+					"select * from proveedores prov, tipo_documento td where prov.tipo_documento_cod = td.codigo_tp and upper(prov.nombre) like ?");
+			ps.setString(1, "%" + subcadena.toUpperCase() + "%");
 			rs = ps.executeQuery();
-			
-			while(rs.next()) {
+
+			while (rs.next()) {
 				String identificador = rs.getString("identificador");
-				String tipoDocumento = rs.getString("tipo_documento_cod");
+				String tipoDocumentoCodigo = rs.getString("codigo_tp");
+				String tipoDocumentoDescripcion = rs.getString("descripcion");
 				String nombre = rs.getString("nombre");
 				String telefono = rs.getString("telefono");
 				String correo = rs.getString("correo");
 				String direccion = rs.getString("direccion");
+				TipoDocumento tipoDocumento = new TipoDocumento(tipoDocumentoCodigo, tipoDocumentoDescripcion);
 				prov = new Proveedor(identificador, tipoDocumento, nombre, telefono, correo, direccion);
 				proveedores.add(prov);
 			}
@@ -40,7 +44,34 @@ public class ProveedoresBDD {
 			e.printStackTrace();
 			throw new KrakeDevException("Error al consultar. Detalle: " + e.getMessage());
 		}
-		
+
 		return proveedores;
+	}
+
+	public void insertar(Proveedor proveedor) throws KrakeDevException {
+		Connection con = null;
+		PreparedStatement ps;
+		ResultSet rs;
+		Proveedor prov = null;
+		try {
+			con = ConexionBDD.obtenerConexion();
+			ps = con.prepareStatement(
+					"insert into proveedores(identificador, tipo_documento_cod, nombre, telefono, correo, direccion)"
+							+ "values (?, ?, ?, ?, ?, ?)");
+			ps.setString(1, proveedor.getIdentificador());
+			ps.setString(2, proveedor.getTipoDocumento().getCodigo());
+			ps.setString(3, proveedor.getNombre());
+			ps.setString(4, proveedor.getTelefono());
+			ps.setString(5, proveedor.getCorreo());
+			ps.setString(6, proveedor.getDireccion());
+
+			ps.executeUpdate();
+		} catch (KrakeDevException e) {
+			e.printStackTrace();
+			throw e;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new KrakeDevException("Error al consultar. Detalle: " + e.getMessage());
+		}
 	}
 }
