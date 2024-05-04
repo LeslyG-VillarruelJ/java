@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -72,7 +73,11 @@ public class PedidosBDD{
 		Connection con = null;
 		PreparedStatement ps = null;
 		PreparedStatement psDet = null;
+		PreparedStatement psHis = null;
 		ArrayList<DetallePedido> detalles = pedido.getDetalles();
+		
+		Date fechaActual = new Date();
+		Timestamp fecha = new Timestamp(fechaActual.getTime());
 		try {
 			con = ConexionBDD.obtenerConexion();
 			ps = con.prepareStatement("update cabecera_pedido set estado_cod = 'R' where codigo_cp = ?");
@@ -90,6 +95,14 @@ public class PedidosBDD{
 				psDet.setInt(3, det.getCodigo());
 				
 				psDet.executeUpdate();
+				
+				psHis = con.prepareStatement("insert into historial_stock(fecha, referencia, producto_cod, cantidad)"
+						+ "values (?, ?, ?, ?)");
+				psHis.setTimestamp(1, fecha);
+				psHis.setString(2, "Pedido " + pedido.getCodigo());
+				psHis.setInt(3, det.getProducto().getCodigo());
+				psHis.setInt(4, det.getCantidadRecibida());
+				psHis.executeUpdate();
 			}
 		} catch (KrakeDevException e) {
 			e.printStackTrace();
