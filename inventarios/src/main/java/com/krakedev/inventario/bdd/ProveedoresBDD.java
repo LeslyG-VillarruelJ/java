@@ -74,4 +74,36 @@ public class ProveedoresBDD {
 			throw new KrakeDevException("Error al consultar. Detalle: " + e.getMessage());
 		}
 	}
+	
+	public Proveedor buscarProveedor(String codigoProveedor) throws KrakeDevException {
+		Connection con = null;
+		PreparedStatement ps;
+		ResultSet rs;
+		Proveedor prov = null;
+		try {
+			con = ConexionBDD.obtenerConexion();
+			ps = con.prepareStatement("select * from proveedores where identificador = ?");
+			ps.setString(1, codigoProveedor);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				String identificador = rs.getString(1);
+				String documentoCod = rs.getString(2);
+				TipoDocumento tipDoc = new TipoDocumento();
+				tipDoc.setCodigo(documentoCod);
+				String nombre = rs.getString(3);
+				String telefono = rs.getString(4);
+				String correo = rs.getString(5);
+				String direccion = rs.getString(6);
+				prov = new Proveedor(identificador, tipDoc, nombre, telefono, correo, direccion);
+			}
+		} catch (KrakeDevException e) {
+			e.printStackTrace();
+			throw e;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new KrakeDevException("Error al consultar. Detalle: " + e.getMessage());
+		}
+		
+		return prov;
+	}
 }

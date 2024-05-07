@@ -55,7 +55,7 @@ public class ProductoBDD {
 
 		return productos;
 	}
-
+	
 	public void insertar(Producto producto) throws KrakeDevException{
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -80,5 +80,63 @@ public class ProductoBDD {
 			e.printStackTrace();
 			throw new KrakeDevException("Error al consultar. Detalle: " + e.getMessage());
 		}
+	}
+	
+	public void actualizar(Producto producto) throws KrakeDevException{
+		Connection con = null;
+		PreparedStatement ps = null;
+		try {
+			con = ConexionBDD.obtenerConexion();
+			ps = con.prepareStatement("update productos set nombre = ?, udm_cod = ?, precio_venta = ?, tiene_iva = ?, coste = ?, categoria_cod = ? where codigo_prod = ?");
+			ps.setString(1, producto.getNombre());
+			ps.setString(2, producto.getUnidadMedida().getNombre());
+			ps.setBigDecimal(3, producto.getPrecioVenta());
+			ps.setBoolean(4, producto.isTieneIVA());
+			ps.setBigDecimal(5, producto.getCoste());
+			ps.setInt(6, producto.getCategoria().getCodigo());
+			ps.setInt(7, producto.getCodigo());
+			ps.executeUpdate();
+		} catch (KrakeDevException e) {
+			e.printStackTrace();
+			throw e;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new KrakeDevException("Error al consultar. Detalle: " + e.getMessage());
+		}
+	}
+	
+	public Producto buscarProducto(int codigoProducto) throws KrakeDevException {
+		Connection con = null;
+		PreparedStatement ps;
+		ResultSet rs;
+		Producto prod = null;
+		try {
+			con = ConexionBDD.obtenerConexion();
+			ps = con.prepareStatement("select pr.codigo_prod, pr.nombre, pr.udm_cod, cast(pr.precio_venta as decimal(5,2)), pr.tiene_iva, cast(pr.coste as decimal(6,2)), pr.categoria_cod, pr.stock from productos pr where codigo_prod = ?");
+			ps.setInt(1, codigoProducto);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				int productoCodigo = rs.getInt(1);
+				String nombreProducto = rs.getString(2);
+				String nombreUDM = rs.getString(3);
+				BigDecimal precioVenta = rs.getBigDecimal(4);
+				boolean tieneIVA = rs.getBoolean(5);
+				BigDecimal coste = rs.getBigDecimal(6);
+				int codigoCategoria = rs.getInt(7);
+				int stock = rs.getInt(8);
+				
+				UnidadMedida udm = new UnidadMedida(nombreUDM, null, null);
+				Categoria categoria = new Categoria(codigoCategoria, null, null);
+				prod = new Producto(productoCodigo, nombreProducto, udm, precioVenta, tieneIVA, coste, categoria, stock);
+			}
+		} catch (KrakeDevException e) {
+			e.printStackTrace();
+			throw e;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new KrakeDevException("Error al consultar. Detalle: " + e.getMessage());
+		}
+		
+		return prod;
 	}
 }
